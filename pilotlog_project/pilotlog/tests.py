@@ -1,4 +1,7 @@
 from django.test import TestCase
+from django.urls import reverse
+from rest_framework.test import APITestCase
+from rest_framework import status
 from pilotlog.models import Aircraft, Airfield, Pilot, Flight
 from pilotlog.importers.aircraft_importer import AircraftImporter
 from pilotlog.importers.airfield_importer import AirfieldImporter
@@ -327,3 +330,19 @@ class FlightImporterTestCase(TestCase):
         importer = FlightImporter(record)
         with self.assertRaises(ValueError):
             importer.process()
+
+
+class ApiTestCase(APITestCase):
+    def test_import_data(self):
+        url = reverse("import_data")
+        data = {"file_path": "data/import - pilotlog_mcc.json"}
+        response = self.client.post(url, data, format="json")
+        self.assertEqual(response.status_code, status.HTTP_202_ACCEPTED)
+        self.assertIn("task_id", response.data)
+
+    def test_export_data(self):
+        url = reverse("export_data")
+        data = {"file_path": "data/exported_logbook.csv"}
+        response = self.client.post(url, data, format="json")
+        self.assertEqual(response.status_code, status.HTTP_202_ACCEPTED)
+        self.assertIn("task_id", response.data)
