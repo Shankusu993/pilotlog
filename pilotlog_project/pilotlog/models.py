@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class Aircraft(models.Model):
     guid = models.CharField(max_length=255, unique=True)
     make = models.CharField(max_length=255, null=True, blank=True)
@@ -38,6 +39,7 @@ class Aircraft(models.Model):
     def __str__(self):
         return self.reference or self.guid
 
+
 class Airfield(models.Model):
     guid = models.CharField(max_length=255, unique=True)
     name = models.CharField(max_length=255, null=True, blank=True)
@@ -55,6 +57,7 @@ class Airfield(models.Model):
 
     def __str__(self):
         return self.name or self.guid
+
 
 class Pilot(models.Model):
     guid = models.CharField(max_length=255, unique=True)
@@ -79,15 +82,60 @@ class Pilot(models.Model):
     def __str__(self):
         return self.name or self.guid
 
+
 class Flight(models.Model):
     guid = models.CharField(max_length=255, unique=True)
-    aircraft = models.ForeignKey(Aircraft, to_field='guid', on_delete=models.SET_NULL, null=True, blank=True)
-    departure_airfield = models.ForeignKey(Airfield, to_field='guid', related_name='departures', on_delete=models.SET_NULL, null=True, blank=True)
-    arrival_airfield = models.ForeignKey(Airfield, to_field='guid', related_name='arrivals', on_delete=models.SET_NULL, null=True, blank=True)
-    pilot1 = models.ForeignKey(Pilot, to_field='guid', related_name='flights_as_p1', on_delete=models.SET_NULL, null=True, blank=True)
-    pilot2 = models.ForeignKey(Pilot, to_field='guid', related_name='flights_as_p2', on_delete=models.SET_NULL, null=True, blank=True)
-    pilot3 = models.ForeignKey(Pilot, to_field='guid', related_name='flights_as_p3', on_delete=models.SET_NULL, null=True, blank=True)
-    pilot4 = models.ForeignKey(Pilot, to_field='guid', related_name='flights_as_p4', on_delete=models.SET_NULL, null=True, blank=True)
+    aircraft = models.ForeignKey(
+        Aircraft, to_field="guid", on_delete=models.SET_NULL, null=True, blank=True
+    )
+    departure_airfield = models.ForeignKey(
+        Airfield,
+        to_field="guid",
+        related_name="departures",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+    )
+    arrival_airfield = models.ForeignKey(
+        Airfield,
+        to_field="guid",
+        related_name="arrivals",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+    )
+    pilot1 = models.ForeignKey(
+        Pilot,
+        to_field="guid",
+        related_name="flights_as_p1",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+    )
+    pilot2 = models.ForeignKey(
+        Pilot,
+        to_field="guid",
+        related_name="flights_as_p2",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+    )
+    pilot3 = models.ForeignKey(
+        Pilot,
+        to_field="guid",
+        related_name="flights_as_p3",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+    )
+    pilot4 = models.ForeignKey(
+        Pilot,
+        to_field="guid",
+        related_name="flights_as_p4",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+    )
     flight_date = models.DateField(null=True, blank=True)
     total_duration = models.IntegerField(help_text="In minutes", null=True, blank=True)
     remarks = models.TextField(null=True, blank=True)

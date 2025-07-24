@@ -1,0 +1,9 @@
+[flake8]
+max-line-length = 88
+exclude = .git,__pycache__,docs/source/conf.py,old,build,dist
+per-file-ignores =
+    pilotlog_project/pilotlog/tests.py:F401
+    pilotlog_project/pilotlog/admin.py:F401
+    pilotlog_project/pilotlog/exporters/csv_logbook_exporter.py:F401
+    pilotlog_project/pilotlog/views.py:F401
+    pilotlog_project/pilotlog_project/settings.py:E501

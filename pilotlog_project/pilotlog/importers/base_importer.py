@@ -1,8 +1,8 @@
 class BaseImporter:
     def __init__(self, record):
         self.record = record
-        self.meta = record['meta']
-        self.guid = record['guid']
+        self.meta = record["meta"]
+        self.guid = record["guid"]
 
     def process(self):
         raise NotImplementedError

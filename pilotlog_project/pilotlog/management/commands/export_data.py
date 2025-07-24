@@ -2,28 +2,35 @@ from django.core.management.base import BaseCommand
 from pilotlog.models import Flight
 from pilotlog.exporters.csv_logbook_exporter import CsvLogbookExporter
 
+
 class Command(BaseCommand):
-    help = 'Export data to a specified format'
+    help = "Export data to a specified format"
 
     def add_arguments(self, parser):
-        parser.add_argument('file_path', type=str, help='The path to the output file.')
-        parser.add_argument('--format', type=str, default='csv_logbook', help='The format to export to.')
+        parser.add_argument("file_path", type=str, help="The path to the output file.")
+        parser.add_argument(
+            "--format", type=str, default="csv_logbook", help="The format to export to."
+        )
 
     def handle(self, *args, **options):
-        format = options['format']
-        file_path = options['file_path']
+        format = options["format"]
+        file_path = options["file_path"]
 
         exporters = {
-            'csv_logbook': CsvLogbookExporter,
+            "csv_logbook": CsvLogbookExporter,
         }
 
         exporter_class = exporters.get(format)
         if not exporter_class:
-            self.stdout.write(self.style.ERROR(f'Unknown format: {format}'))
+            self.stdout.write(self.style.ERROR(f"Unknown format: {format}"))
             return
 
         queryset = Flight.objects.all()
         exporter = exporter_class(queryset)
         exporter.export(file_path)
 
-        self.stdout.write(self.style.SUCCESS(f'Successfully exported data to {file_path} in {format} format.'))
+        self.stdout.write(
+            self.style.SUCCESS(
+                f"Successfully exported data to {file_path} in {format} format."
+            )
+        )
