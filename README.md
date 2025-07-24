@@ -127,6 +127,8 @@ To check the status of a task, send a GET request to the `/api/task/<task_id>/` 
 curl http://localhost:8000/api/task/<task_id>/
 ```
 
+If the task fails, the `task_status` will be `FAILURE` and the `task_result` will contain a dictionary with the error type and message.
+
 ## Conventions and Best Practices
 
 This project follows a number of best practices to ensure code quality, maintainability, and scalability.
