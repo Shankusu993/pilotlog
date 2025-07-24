@@ -73,6 +73,8 @@ class TaskStatusView(APIView):
         result = {
             "task_id": task_id,
             "task_status": task_result.status,
-            "task_result": task_result.result,
+            "task_result": str(task_result.result)
+            if isinstance(task_result.result, Exception)
+            else task_result.result,
         }
         return Response(result, status=status.HTTP_200_OK)
