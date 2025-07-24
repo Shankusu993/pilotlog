@@ -3,10 +3,14 @@ from ..models import Pilot
 
 
 class PilotImporter(BaseImporter):
+    """Importer for pilot data."""
+
     def get_model(self):
+        """Returns the Pilot model class."""
         return Pilot
 
     def process(self):
+        """Processes the pilot record and saves it to the database."""
         self.get_model().objects.update_or_create(
             guid=self.guid,
             defaults={

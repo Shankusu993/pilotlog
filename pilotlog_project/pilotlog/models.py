@@ -2,6 +2,8 @@ from django.db import models
 
 
 class Aircraft(models.Model):
+    """Represents an aircraft."""
+
     guid = models.CharField(max_length=255, unique=True)
     make = models.CharField(max_length=255, null=True, blank=True)
     model = models.CharField(max_length=255, null=True, blank=True)
@@ -41,6 +43,8 @@ class Aircraft(models.Model):
 
 
 class Airfield(models.Model):
+    """Represents an airfield."""
+
     guid = models.CharField(max_length=255, unique=True)
     name = models.CharField(max_length=255, null=True, blank=True)
     icao_code = models.CharField(max_length=4, null=True, blank=True)
@@ -60,6 +64,8 @@ class Airfield(models.Model):
 
 
 class Pilot(models.Model):
+    """Represents a pilot."""
+
     guid = models.CharField(max_length=255, unique=True)
     name = models.CharField(max_length=255, null=True, blank=True)
     email = models.EmailField(null=True, blank=True)
@@ -84,6 +90,8 @@ class Pilot(models.Model):
 
 
 class Flight(models.Model):
+    """Represents a flight log entry."""
+
     guid = models.CharField(max_length=255, unique=True)
     aircraft = models.ForeignKey(
         Aircraft, to_field="guid", on_delete=models.SET_NULL, null=True, blank=True

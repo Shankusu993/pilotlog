@@ -4,7 +4,15 @@ from ..models import Aircraft, Flight
 
 
 class CsvLogbookExporter(BaseExporter):
+    """Exports data to a CSV file in the logbook format."""
+
     def export(self, file_path):
+        """
+        Exports the data to a CSV file.
+
+        Args:
+            file_path (str): The path to the output CSV file.
+        """
         with open(file_path, "w", newline="") as f:
             writer = csv.writer(f)
 

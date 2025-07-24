@@ -4,10 +4,14 @@ from datetime import datetime
 
 
 class FlightImporter(BaseImporter):
+    """Importer for flight data."""
+
     def get_model(self):
+        """Returns the Flight model class."""
         return Flight
 
     def process(self):
+        """Processes the flight record and saves it to the database."""
         aircraft = Aircraft.objects.filter(guid=self.meta.get("AircraftCode")).first()
         departure_airfield = Airfield.objects.filter(
             guid=self.meta.get("DepCode")

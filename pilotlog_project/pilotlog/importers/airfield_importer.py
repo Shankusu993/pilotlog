@@ -3,10 +3,14 @@ from ..models import Airfield
 
 
 class AirfieldImporter(BaseImporter):
+    """Importer for airfield data."""
+
     def get_model(self):
+        """Returns the Airfield model class."""
         return Airfield
 
     def process(self):
+        """Processes the airfield record and saves it to the database."""
         self.get_model().objects.update_or_create(
             guid=self.guid,
             defaults={
