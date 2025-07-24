@@ -31,9 +31,22 @@ This is a Django application for importing and exporting pilot logbook data.
 
 5.  **Database Setup:**
     Run the following commands from the `pilotlog_project` directory to create the database and apply the schema:
+
     ```bash
     python manage.py makemigrations pilotlog
     python manage.py migrate
+    ```
+
+6.  **Run the Development Server:**
+
+    ```bash
+    python manage.py runserver
+    ```
+
+7.  **Run the Celery Worker:**
+    In a separate terminal, run the following command from the `pilotlog_project` directory:
+    ```bash
+    celery -A pilotlog_project worker -l info
     ```
 
 ## Usage
@@ -82,6 +95,36 @@ To run the test suite, run the following command from the `pilotlog_project` dir
 
 ```bash
 python manage.py test pilotlog
+```
+
+## API Usage
+
+The application exposes a set of APIs for triggering the import and export processes asynchronously.
+
+### Start an Import
+
+To start an import, send a POST request to the `/api/import/` endpoint with the path to the JSON file:
+
+```bash
+curl -X POST -H "Content-Type: application/json" -d '{"file_path": "data/import - pilotlog_mcc.json"}' http://localhost:8000/api/import/
+```
+
+This will return a task ID, which you can use to check the status of the import.
+
+### Start an Export
+
+To start an export, send a POST request to the `/api/export/` endpoint with the desired output file path:
+
+```bash
+curl -X POST -H "Content-Type: application/json" -d '{"file_path": "data/exported_logbook.csv"}' http://localhost:8000/api/export/
+```
+
+### Check Task Status
+
+To check the status of a task, send a GET request to the `/api/task/<task_id>/` endpoint:
+
+```bash
+curl http://localhost:8000/api/task/<task_id>/
 ```
 
 ## Conventions and Best Practices
