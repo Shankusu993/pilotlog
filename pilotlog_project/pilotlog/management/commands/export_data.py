@@ -36,6 +36,9 @@ class Command(BaseCommand):
             logger.info(
                 f"Successfully exported data to {file_path} in {format} format."
             )
-
+        except FileNotFoundError:
+            logger.error(f"File not found at {file_path}")
+            raise
         except Exception as e:
             logger.error(f"Error exporting data: {e}")
+            raise

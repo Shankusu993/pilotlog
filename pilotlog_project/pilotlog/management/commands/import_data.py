@@ -18,8 +18,12 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
-        with open(options["json_file"], "r") as f:
-            data = json.load(f)
+        try:
+            with open(options["json_file"], "r") as f:
+                data = json.load(f)
+        except FileNotFoundError:
+            logger.error(f"File not found at {options['json_file']}")
+            raise
 
         importers = {
             "aircraft": AircraftImporter,
