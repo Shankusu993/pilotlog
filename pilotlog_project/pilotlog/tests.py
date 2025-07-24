@@ -59,6 +59,22 @@ class AircraftImporterTestCase(TestCase):
         self.assertEqual(aircraft.model, "C150")
         self.assertEqual(aircraft.reference, "PH-ALI")
 
+    def test_aircraft_importer_missing_model(self):
+        record = {
+            "user_id": 125880,
+            "table": "Aircraft",
+            "guid": "00000000-0000-0000-0000-000000000367",
+            "meta": {
+                "Make": "Cessna",
+            },
+            "platform": 9,
+            "_modified": 1616317613,
+        }
+
+        importer = AircraftImporter(record)
+        with self.assertRaises(ValueError):
+            importer.process()
+
 
 class AirfieldImporterTestCase(TestCase):
     def test_airfield_importer(self):
@@ -94,6 +110,22 @@ class AirfieldImporterTestCase(TestCase):
         self.assertEqual(airfield.name, "Sirnak Serafettin Elci")
         self.assertEqual(airfield.icao_code, "LTCV")
         self.assertEqual(airfield.iata_code, "NKT")
+
+    def test_airfield_importer_missing_name(self):
+        record = {
+            "user_id": 125880,
+            "table": "Airfield",
+            "guid": "00000000-0000-0000-0000-000000040048",
+            "meta": {
+                "AFICAO": "LTCV",
+            },
+            "platform": 9,
+            "_modified": 1616317613,
+        }
+
+        importer = AirfieldImporter(record)
+        with self.assertRaises(ValueError):
+            importer.process()
 
 
 class PilotImporterTestCase(TestCase):
@@ -132,6 +164,22 @@ class PilotImporterTestCase(TestCase):
         pilot = Pilot.objects.first()
         self.assertEqual(pilot.name, "SELF")
         self.assertEqual(pilot.company, "Turkish Airlines")
+
+    def test_pilot_importer_missing_name(self):
+        record = {
+            "user_id": 125880,
+            "table": "Pilot",
+            "guid": "00000000-0000-0000-0000-000000000001",
+            "meta": {
+                "Company": "Turkish Airlines",
+            },
+            "platform": 9,
+            "_modified": 1616317613,
+        }
+
+        importer = PilotImporter(record)
+        with self.assertRaises(ValueError):
+            importer.process()
 
 
 class FlightImporterTestCase(TestCase):
@@ -247,3 +295,35 @@ class FlightImporterTestCase(TestCase):
         self.assertEqual(flight.aircraft.reference, "PH-ALI")
         self.assertEqual(flight.departure_airfield.name, "LEY")
         self.assertEqual(flight.pilot1.name, "SELF")
+
+    def test_flight_importer_missing_date(self):
+        record = {
+            "user_id": 125880,
+            "table": "Flight",
+            "guid": "00000000-0000-0000-0000-000000009218",
+            "meta": {
+                "AircraftCode": "00000000-0000-0000-0000-000000000367",
+            },
+            "platform": 9,
+            "_modified": 1616317613,
+        }
+
+        importer = FlightImporter(record)
+        with self.assertRaises(ValueError):
+            importer.process()
+
+    def test_flight_importer_missing_aircraft(self):
+        record = {
+            "user_id": 125880,
+            "table": "Flight",
+            "guid": "00000000-0000-0000-0000-000000009218",
+            "meta": {
+                "DateUTC": "1998-03-16",
+            },
+            "platform": 9,
+            "_modified": 1616317613,
+        }
+
+        importer = FlightImporter(record)
+        with self.assertRaises(ValueError):
+            importer.process()

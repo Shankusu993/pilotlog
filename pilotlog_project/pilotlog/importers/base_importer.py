@@ -13,6 +13,14 @@ class BaseImporter:
         self.meta = record["meta"]
         self.guid = record["guid"]
 
+    def validate(self):
+        """
+        Validates the record.
+
+        This method should be implemented by subclasses.
+        """
+        raise NotImplementedError
+
     def process(self):
         """
         Processes the record and saves it to the database.
