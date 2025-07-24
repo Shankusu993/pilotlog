@@ -1,6 +1,9 @@
+import logging
 from django.core.management.base import BaseCommand
 from pilotlog.models import Flight
 from pilotlog.exporters.csv_logbook_exporter import CsvLogbookExporter
+
+logger = logging.getLogger(__name__)
 
 
 class Command(BaseCommand):
@@ -22,15 +25,15 @@ class Command(BaseCommand):
 
         exporter_class = exporters.get(format)
         if not exporter_class:
-            self.stdout.write(self.style.ERROR(f"Unknown format: {format}"))
+            logger.error(f"Unknown format: {format}")
             return
 
+        logger.info(f"Exporting data to {file_path} in {format} format...")
         queryset = Flight.objects.all()
         exporter = exporter_class(queryset)
-        exporter.export(file_path)
-
-        self.stdout.write(
-            self.style.SUCCESS(
-                f"Successfully exported data to {file_path} in {format} format."
-            )
-        )
+        try:
+            exporter.export(file_path)
+            logger.info(f"Successfully exported data to {file_path} in {format} format.")
+            
+        except Exception as e:
+            logger.error(f"Error exporting data: {e}")
