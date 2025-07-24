@@ -1,6 +1,6 @@
-# User Documentation
+# Pilot Log
 
-This document provides instructions on how to set up and use the Pilot Log application's importer and exporter modules.
+This is a Django application for importing and exporting pilot logbook data.
 
 ## Setup
 
@@ -22,7 +22,14 @@ This document provides instructions on how to set up and use the Pilot Log appli
     pip install -r requirements.txt
     ```
 
-4.  **Database Setup:**
+4.  **Create `.env` file:**
+    Create a `.env` file in the root of the project and add the following line:
+
+    ```
+    SECRET_KEY='your-secret-key'
+    ```
+
+5.  **Database Setup:**
     Run the following commands from the `pilotlog_project` directory to create the database and apply the schema:
     ```bash
     python manage.py makemigrations pilotlog
@@ -68,3 +75,23 @@ python manage.py export_data ../data/exported_logbook.csv
 ```
 
 The command will generate a CSV file with the `Aircraft` and `Flight` data in the format specified by the `export-logbook_template.csv` file.
+
+## Testing
+
+To run the test suite, run the following command from the `pilotlog_project` directory:
+
+```bash
+python manage.py test pilotlog
+```
+
+## Conventions and Best Practices
+
+This project follows a number of best practices to ensure code quality, maintainability, and scalability.
+
+- **Modular Design:** The application is designed with a modular architecture. The importer and exporter logic is encapsulated in separate classes, making the code easy to understand, maintain, and extend.
+- **Normalized Data Model:** The data is stored in a normalized SQL schema, which ensures data integrity and avoids redundancy.
+- **Testing:** The project has a comprehensive test suite that covers the core functionality of the application. This helps to prevent regressions and ensure that the application is working as expected.
+- **Logging:** The application uses Python's built-in logging module to provide detailed information about the import and export processes.
+- **Configuration Management:** Sensitive information, such as the `SECRET_KEY`, is loaded from an environment variable, which is a security best practice.
+- **Code Formatting and Linting:** The codebase is formatted with `black` and linted with `flake8` to ensure a consistent style and to identify potential bugs.
+- **Automated Documentation:** The project uses `Sphinx` to automatically generate documentation from the docstrings in the code.

@@ -31,7 +31,9 @@ class Command(BaseCommand):
         logger.info("Starting import process...")
 
         # First pass: import Aircraft, Airfield, Pilot
-        logger.info("Starting first pass: importing Aircraft, Airfield, and Pilot data...")
+        logger.info(
+            "Starting first pass: importing Aircraft, Airfield, and Pilot data..."
+        )
         for record in data:
             table_name = record["table"].lower()
             if table_name in ["aircraft", "airfield", "pilot"]:

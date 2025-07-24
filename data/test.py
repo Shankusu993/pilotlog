@@ -14,7 +14,7 @@ json_data = json.loads(raw)
 # print(json.dumps(json_data, indent=4))
 
 unique_tabels = set()
-unique_entries = [] 
+unique_entries = []
 
 for entry in json_data:
     if entry["table"] not in unique_tabels:

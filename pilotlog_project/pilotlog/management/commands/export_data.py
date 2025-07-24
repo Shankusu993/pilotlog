@@ -33,7 +33,9 @@ class Command(BaseCommand):
         exporter = exporter_class(queryset)
         try:
             exporter.export(file_path)
-            logger.info(f"Successfully exported data to {file_path} in {format} format.")
-            
+            logger.info(
+                f"Successfully exported data to {file_path} in {format} format."
+            )
+
         except Exception as e:
             logger.error(f"Error exporting data: {e}")
